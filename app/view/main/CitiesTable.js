@@ -1,5 +1,6 @@
 Ext.define('StreetsEditor.view.cities.CitiesGrid', {
     extend: 'Ext.grid.Grid',
+
     xtype: 'citiesgrid',
 
     requires: [
@@ -33,142 +34,121 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
         flex: 1,
         cell: {
             encodeHtml: false,
-            renderer: function(value) {
+            renderer: function (value) {
                 return '~' + Ext.util.Format.number(value, '0,000');
             }
         }
     }],
 
-    // items: [{
-    //     xtype: 'toolbar',
-    //     docked: 'top',
-    //     items: [{
-    //         xtype: 'textfield',
-    //         label: 'City',
-    //         width: 200,
-    //         triggers: {
-    //             clear: {
-    //                 type: 'clear',
-    //                 handler: function(field) {
-    //                     field.setValue('');
-    //                 }
-    //             }
-    //         },
-    //         listeners: {
-    //             change: {
-    //                 buffer: 300,
-    //                 fn: function(field, value) {
-    //                     var grid = field.up('grid');
-    //                     var store = grid.getStore();
-    //
-    //                     store.clearFilter();
-    //
-    //                     if (value) {
-    //                         store.filter('name', value, true, false);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }]
-    // }, {
-    //     xtype: 'toolbar',
-    //     docked: 'top',
-    //     items: [{
-    //         xtype: 'selectfield',
-    //         label: 'Region',
-    //         width: 200,
-    //         store: {
-    //             fields: ['name'],
-    //             data: [
-    //                 {name: 'Central'},
-    //                 {name: 'North-West'},
-    //                 {name: 'Southern'},
-    //                 {name: 'North-Caucasian'},
-    //                 {name: 'Volga'},
-    //                 {name: 'Ural'},
-    //                 {name: 'Siberian'},
-    //                 {name: 'Far-Eastern'}
-    //             ]
-    //         },
-    //         displayField: 'name',
-    //         valueField: 'name',
-    //         triggers: {
-    //             clear: {
-    //                 type: 'clear',
-    //                 handler: function(field) {
-    //                     field.setValue(null);
-    //                 }
-    //             }
-    //         },
-    //         listeners: {
-    //             change: function(field, value) {
-    //                 var grid = field.up('grid');
-    //                 var store = grid.getStore();
-    //
-    //                 store.clearFilter();
-    //
-    //                 if (value) {
-    //                     store.filter('region', value);
-    //                 }
-    //             }
-    //         }
-    //     }]
-    // }, {
-    //     xtype: 'toolbar',
-    //     docked: 'top',
-    //     items: [{
-    //         xtype: 'numberfield',
-    //         label: 'Population ≥',
-    //         width: 200,
-    //         minValue: 0,
-    //         triggers: {
-    //             clear: {
-    //                 type: 'clear',
-    //                 handler: function(field) {
-    //                     field.setValue('');
-    //                 }
-    //             }
-    //         },
-    //         listeners: {
-    //             change: function(field, value) {
-    //                 var grid = field.up('grid');
-    //                 var store = grid.getStore();
-    //
-    //                 store.clearFilter();
-    //
-    //                 if (value) {
-    //                     store.filterBy(function(record) {
-    //                         return record.get('population') >= value;
-    //                     });
-    //                 }
-    //             }
-    //         }
-    //     }]
-    // }],
-    //
     plugins: {
         type: 'pagingtoolbar',
         dock: 'bottom',
         displayInfo: true
     },
-    //
-    // bbar: {
-    //     xtype: 'toolbar',
-    //     items: [{
-    //         xtype: 'button',
-    //         text: 'Clear All Filters',
-    //         handler: function() {
-    //             var grid = this.up('grid');
-    //             var store = grid.getStore();
-    //
-    //             // Clear all filter fields
-    //             grid.down('textfield[label="City"]').setValue('');
-    //             grid.down('selectfield[label="Region"]').setValue(null);
-    //             grid.down('numberfield[label="Population ≥"]').setValue('');
-    //
-    //             // Clear store filters
-    //             store.clearFilter();
-    //         }
-    //     }]
-    // }
+
+    applyAllFilters: function () {
+        const grid = this;
+        const store = grid.getStore();
+
+        const cityValue = grid.down('textfield[label="City"]').getValue();
+        const regionValue = grid.down('selectfield[label="Region"]').getValue();
+        const populationValue = grid.down('numberfield[label="Population ≥"]').getValue();
+
+        store.clearFilter();
+
+        store.filterBy(function (record) {
+            const matchCity = !cityValue || record.get('name').toLowerCase().includes(cityValue.toLowerCase());
+            const matchRegion = !regionValue || record.get('region') === regionValue;
+            const matchPopulation = !populationValue || record.get('population') >= populationValue;
+
+            return matchCity && matchRegion && matchPopulation;
+        });
+
+        store.totalCount = store.getData().getCount();
+        store.loadPage(1);
+    },
+
+
+    items: [{
+        xtype: 'toolbar',
+        docked: 'top',
+        items: [{
+            xtype: 'textfield',
+            label: 'City',
+            width: 200,
+            clearable: true,
+            listeners: {
+                change: {
+                    buffer: 300,
+                    fn: function (field, value) {
+                        const grid = field.up('grid');
+                        grid.applyAllFilters();
+                    }
+                }
+            }
+        }]
+    }, {
+        xtype: 'toolbar',
+        docked: 'top',
+        items: [{
+            xtype: 'selectfield',
+            label: 'Region',
+            editable: false,
+            clearable: true,
+            width: 200,
+            store: {
+                fields: ['name'],
+                data: [
+                    {name: 'Central'},
+                    {name: 'North-West'},
+                    {name: 'Southern'},
+                    {name: 'North-Caucasian'},
+                    {name: 'Volga'},
+                    {name: 'Ural'},
+                    {name: 'Siberian'},
+                    {name: 'Far-Eastern'}
+                ]
+            },
+            displayField: 'name',
+            valueField: 'name',
+            listeners: {
+                change: function (field, value) {
+                    const grid = field.up('grid');
+                    grid.applyAllFilters();
+                }
+            }
+        }]
+    }, {
+        xtype: 'toolbar',
+        docked: 'top',
+        items: [{
+            xtype: 'numberfield',
+            label: 'Population ≥',
+            width: 200,
+            minValue: 0,
+            clearable: true,
+            listeners: {
+                change: function (field, value) {
+                    const grid = field.up('grid');
+                    grid.applyAllFilters();
+                }
+            }
+        }]
+    }, {
+        xtype: 'toolbar',
+        docked: 'top',
+        items: [{
+            xtype: 'button',
+            text: 'Clear All Filters',
+            handler: function () {
+                const grid = this.up('grid');
+
+                grid.down('textfield[label="City"]').setValue('');
+                grid.down('selectfield[label="Region"]').setValue(null);
+                grid.down('numberfield[label="Population ≥"]').setValue('');
+
+                grid.applyAllFilters();
+            }
+        }]
+    }],
 });

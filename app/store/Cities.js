@@ -4,6 +4,12 @@ Ext.define('StreetsEditor.store.Cities', {
     storeId: 'Cities',
     autoLoad: true,
     model: 'StreetsEditor.model.City',
+    proxy: {
+        type: 'memory',
+        reader: {
+            type: 'json'
+        }
+    },
     data: [
         {id: 1, name: 'Moscow', region: 'Central', population: 12655000},
         {id: 2, name: 'Saint Petersburg', region: 'North-West', population: 5384000},
@@ -66,10 +72,4 @@ Ext.define('StreetsEditor.store.Cities', {
         {id: 59, name: 'Vladikavkaz', region: 'North-Caucasian', population: 345000},
         {id: 60, name: 'Murmansk', region: 'North-West', population: 330000},
     ],
-    proxy: {
-        type: 'memory',
-        reader: {
-            type: 'json'
-        }
-    }
 });
