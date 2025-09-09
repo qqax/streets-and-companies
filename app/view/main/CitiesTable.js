@@ -85,10 +85,6 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
             grid.updateStreetsGridFilter(selectedRecords);
         },
     },
-    getSelectedCities: function() {
-        const selected = this.getSelected(); // Метод Modern Toolkit
-        return selected.map(record => record.get('id'));
-    },
 
     updateStreetsGridFilter: function(selectedRecords) {
         const selectedCityIds = selectedRecords.items.map(item => item.get('id'));

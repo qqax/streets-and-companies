@@ -21,4 +21,10 @@ Ext.define('StreetsEditor.model.Street', {
                 return record.get('houses') * 750;
             }}
     ],
+
+    validators: {
+        name: {type: 'length', min: 4},
+        houses: {type: 'range', min: 1, max: 10000},
+        companyId: {type: 'presence'}
+    }
 });
