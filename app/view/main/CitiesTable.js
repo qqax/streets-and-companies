@@ -74,7 +74,6 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
     },
 
     listeners: {
-
         select: function(grid, record) {
             const selectedRecords = grid.getSelected();
             grid.updateStreetsGridFilter(selectedRecords);
@@ -176,6 +175,7 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
                 grid.down('selectfield[label="Region"]').setValue(null);
                 grid.down('numberfield[label="Population ≥"]').setValue('');
 
+                grid.getStore().clearFilter();
                 grid.applyAllFilters();
             }
         }]
