@@ -11,7 +11,8 @@ Ext.define('StreetsEditor.view.main.Table', {
     ],
 
     title: 'Streets',
-    height: '100%',
+    width: '75%',
+    margin: '5 5 5 5',
 
     store: {
         type: 'streets'
