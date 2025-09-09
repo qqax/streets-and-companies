@@ -404,7 +404,7 @@ Ext.define('StreetsEditor.view.main.Table', {
                         cityId: form.down('#city').getValue()
                     };
 
-                    const store = Ext.getStore('streets');
+                    const store = Ext.getStore('Streets');
                     const newId = store.getCount() > 0 ?
                         Math.max(...store.getRange().map(r => r.get('id'))) + 1 : 1;
 
@@ -441,7 +441,6 @@ Ext.define('StreetsEditor.view.main.Table', {
             const companyValid = !!companyField.getValue();
             const housesValue = housesField.getValue();
             const housesValid = (typeof housesValue === 'number') && housesValue > 0;
-            console.log(housesValue, housesValid)
 
             const cityValid = !!cityField.getValue();
 
