@@ -4,6 +4,12 @@ Ext.define('StreetsEditor.store.Streets', {
     storeId: 'Streets',
     autoLoad: true,
     model: 'StreetsEditor.model.Street',
+    proxy: {
+        type: 'memory',
+        reader: {
+            type: 'json'
+        }
+    },
     data: [
         {id: 1, name: 'Тверская', houses: 150, companyId: 1, cityId: 1},
         {id: 2, name: 'Арбат', houses: 89, companyId: 4, cityId: 1},
@@ -96,10 +102,4 @@ Ext.define('StreetsEditor.store.Streets', {
         {id: 89, name: 'Ангарская', houses: 91, companyId: 11, cityId: 24},
         {id: 90, name: 'Солнечная', houses: 77, companyId: 12, cityId: 25}
     ],
-    proxy: {
-        type: 'memory',
-        reader: {
-            type: 'json'
-        }
-    }
 });

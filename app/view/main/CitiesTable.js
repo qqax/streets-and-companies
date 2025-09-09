@@ -74,18 +74,18 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
     },
 
     listeners: {
-        select: function(grid, record) {
+        select: function (grid, record) {
             const selectedRecords = grid.getSelected();
             grid.updateStreetsGridFilter(selectedRecords);
         },
 
-        deselect: function(grid, record) {
+        deselect: function (grid, record) {
             const selectedRecords = grid.getSelected();
             grid.updateStreetsGridFilter(selectedRecords);
         },
     },
 
-    updateStreetsGridFilter: function(selectedRecords) {
+    updateStreetsGridFilter: function (selectedRecords) {
         const selectedCityIds = selectedRecords.items.map(item => item.get('id'));
 
         const streetsGrid = Ext.ComponentQuery.query('streetstable')[0];
@@ -105,6 +105,11 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
     items: [{
         xtype: 'toolbar',
         docked: 'top',
+        layout: {
+            type: 'box',
+            pack: 'start',
+            wrap: true
+        },
         items: [{
             xtype: 'textfield',
             label: 'City',
@@ -119,11 +124,8 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
                     }
                 }
             }
-        }]
-    }, {
-        xtype: 'toolbar',
-        docked: 'top',
-        items: [{
+
+        }, {
             xtype: 'selectfield',
             label: 'Region',
             editable: false,
@@ -145,11 +147,7 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
                     grid.applyAllFilters();
                 }
             }
-        }]
-    }, {
-        xtype: 'toolbar',
-        docked: 'top',
-        items: [{
+        }, {
             xtype: 'numberfield',
             label: 'Population ≥',
             width: 200,
@@ -161,11 +159,8 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
                     grid.applyAllFilters();
                 }
             }
-        }]
-    }, {
-        xtype: 'toolbar',
-        docked: 'top',
-        items: [{
+
+        }, {
             xtype: 'button',
             text: 'Clear All Filters',
             handler: function () {

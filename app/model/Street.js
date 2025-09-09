@@ -23,8 +23,11 @@ Ext.define('StreetsEditor.model.Street', {
     ],
 
     validators: {
-        name: {type: 'length', min: 4},
-        houses: {type: 'range', min: 1, max: 10000},
+        name: {type: 'length', min: 5},
+        houses: [
+            { type: 'number' },
+            { type: 'range', min: 1, max: 10000 }
+        ],
         companyId: {type: 'presence'}
     }
 });

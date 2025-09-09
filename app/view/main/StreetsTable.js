@@ -5,10 +5,12 @@ Ext.define('StreetsEditor.view.main.Table', {
     requires: [
         'StreetsEditor.store.Streets',
         'StreetsEditor.store.Companies',
+        'StreetsEditor.store.Cities',
         'Ext.grid.column.Column',
         'Ext.grid.cell.*',
         'Ext.field.*',
         'Ext.grid.plugin.CellEditing',
+        'Ext.Dialog'
     ],
 
     title: 'Streets',
@@ -171,114 +173,282 @@ Ext.define('StreetsEditor.view.main.Table', {
     items: [{
         xtype: 'toolbar',
         docked: 'top',
+        layout: {
+            type: 'hbox',
+        },
         items: [{
-            xtype: 'textfield',
-            label: 'Street',
-            width: 200,
-            clearable: true,
-            listeners: {
-                change: {
-                    buffer: 300,
-                    fn: function (field, value) {
+            xtype: 'container',
+            flex: 1,
+            layout: {
+                type: 'hbox',
+                wrap: true,
+            },
+            items: [{
+                xtype: 'textfield',
+                label: 'Street',
+                width: 200,
+                clearable: true,
+                listeners: {
+                    change: {
+                        buffer: 300,
+                        fn: function (field, value) {
+                            const grid = field.up('grid');
+                            grid.applyAllFilters();
+                        }
+                    }
+                }
+
+            }, {
+                xtype: 'combobox',
+                label: 'Company',
+                width: 200,
+                clearable: true,
+                store: {
+                    type: 'companies'
+                },
+                displayField: 'name',
+                valueField: 'id',
+                queryMode: 'local',
+                forceSelection: false,
+                anyMatch: true,
+                typeAhead: true,
+                triggers: {
+                    clear: {
+                        type: 'clear',
+                        handler: function (field) {
+                            field.setValue('');
+                        }
+                    }
+                },
+                listeners: {
+                    change: function (field, value) {
                         const grid = field.up('grid');
                         grid.applyAllFilters();
                     }
                 }
-            }
-
-        }, {
-            xtype: 'combobox',
-            label: 'Company',
-            width: 200,
-            clearable: true,
-            store: {
-                type: 'companies'
-            },
-            displayField: 'name',
-            valueField: 'id',
-            queryMode: 'local',
-            forceSelection: false,
-            anyMatch: true,
-            typeAhead: true,
-            triggers: {
-                clear: {
-                    type: 'clear',
-                    handler: function (field) {
-                        field.setValue('');
+            }, {
+                xtype: 'numberfield',
+                label: 'Number of houses ==',
+                width: 200,
+                minValue: 0,
+                clearable: true,
+                listeners: {
+                    change: function (field, value) {
+                        const grid = field.up('grid');
+                        grid.applyAllFilters();
                     }
                 }
-            },
-            listeners: {
-                change: function (field, value) {
-                    const grid = field.up('grid');
-                    grid.applyAllFilters();
-                }
-            }
-        }, {
-            xtype: 'numberfield',
-            label: 'Number of houses ==',
-            width: 200,
-            minValue: 0,
-            clearable: true,
-            listeners: {
-                change: function (field, value) {
-                    const grid = field.up('grid');
-                    grid.applyAllFilters();
-                }
-            }
-        }, {
-            xtype: 'numberfield',
-            label: 'Population From',
-            width: 150,
-            clearable: true,
-            triggers: {
-                clear: {
-                    type: 'clear',
-                    handler: function (field) {
-                        field.setValue('');
+            }, {
+                xtype: 'numberfield',
+                label: 'Population From',
+                width: 150,
+                clearable: true,
+                triggers: {
+                    clear: {
+                        type: 'clear',
+                        handler: function (field) {
+                            field.setValue('');
+                        }
+                    }
+                },
+                listeners: {
+                    change: function (field, value) {
+                        const grid = field.up('grid');
+                        grid.applyAllFilters();
                     }
                 }
-            },
-            listeners: {
-                change: function (field, value) {
-                    const grid = field.up('grid');
-                    grid.applyAllFilters();
-                }
-            }
-        }, {
-            xtype: 'numberfield',
-            label: 'Population To',
-            width: 150,
-            clearable: true,
-            triggers: {
-                clear: {
-                    type: 'clear',
-                    handler: function (field) {
-                        field.setValue('');
+            }, {
+                xtype: 'numberfield',
+                label: 'Population To',
+                width: 150,
+                clearable: true,
+                triggers: {
+                    clear: {
+                        type: 'clear',
+                        handler: function (field) {
+                            field.setValue('');
+                        }
+                    }
+                },
+                listeners: {
+                    change: function (field, value) {
+                        const grid = field.up('grid');
+                        grid.applyAllFilters();
                     }
                 }
-            },
-            listeners: {
-                change: function (field, value) {
-                    const grid = field.up('grid');
+            }, {
+                xtype: 'button',
+                text: 'Clear All Filters',
+                width: 200,
+
+                handler: function () {
+                    const grid = this.up('grid');
+
+                    grid.down('textfield[label="Street"]').setValue('');
+                    grid.down('selectfield[label="Company"]').setValue(null);
+                    grid.down('numberfield[label="Number of houses =="]').setValue('');
+                    grid.down('numberfield[label="Population From"]').setValue('');
+                    grid.down('numberfield[label="Population To"]').setValue('');
+
+                    grid.getStore().clearFilter();
                     grid.applyAllFilters();
                 }
-            }
+            }],
         }, {
-            xtype: 'button',
-            text: 'Clear All Filters',
-            handler: function () {
-                const grid = this.up('grid');
-
-                grid.down('textfield[label="Street"]').setValue('');
-                grid.down('selectfield[label="Company"]').setValue(null);
-                grid.down('numberfield[label="Number of houses =="]').setValue('');
-                grid.down('numberfield[label="Population From"]').setValue('');
-                grid.down('numberfield[label="Population To"]').setValue('');
-
-                grid.getStore().clearFilter();
-                grid.applyAllFilters();
-            }
+            xtype: 'container',
+            layout: {
+                type: 'box',
+                align: 'middle',
+                wrap: true,
+            },
+            items: [{
+                xtype: 'button',
+                text: 'Add Street',
+                iconCls: 'x-fa fa-plus',
+                margin: '0 10 0 0',
+                handler: function () {
+                    this.up('grid').showAddStreetDialog();
+                },
+            }],
         }],
     }],
+
+    showAddStreetDialog: function () {
+        const dialog = Ext.create('Ext.Dialog', {
+            title: 'Add New Street',
+            width: 500,
+            layout: 'vbox',
+            items: [{
+                xtype: 'textfield',
+                itemId: 'streetName',
+                label: 'Street Name',
+                placeholder: 'Minimum 5 characters',
+                required: true,
+                minLength: 5,
+                enforceMaxLength: true,
+                errorTarget: 'under',
+                validators: [
+                    {type: 'length', min: 5, message: 'Minimum 5 characters'}
+                ],
+                listeners: {
+                    change: function(field) {
+                        field.validate();
+                        dialog.validateForm();
+                    }
+                }
+            }, {
+                xtype: 'selectfield',
+                itemId: 'company',
+                label: 'Company',
+                required: true,
+                store: {
+                    type: 'companies',
+                },
+                displayField: 'name',
+                valueField: 'id',
+                queryMode: 'local',
+                forceSelection: true,
+                errorTarget: 'under',
+                listeners: {
+                    change: function(field, value) {
+                        Ext.defer(function() {
+                            dialog.validateForm();
+                        }, 10);
+                    }
+                }
+            }, {
+                xtype: 'numberfield',
+                itemId: 'houses',
+                label: 'Number of Houses',
+                required: true,
+                minValue: 1,
+                maxValue: 10000,
+                allowDecimals: false,
+                errorTarget: 'under',
+                value: 1,
+                listeners: {
+                    change: function(field) {
+                        dialog.validateForm();
+                    }
+                }
+            }, {
+                xtype: 'selectfield',
+                itemId: 'city',
+                label: 'City',
+                required: true,
+                store: Ext.create('StreetsEditor.store.Cities'),
+                displayField: 'name',
+                valueField: 'id',
+                queryMode: 'local',
+                forceSelection: true,
+                errorTarget: 'under',
+                listeners: {
+                    change: function(field, value) {
+                        Ext.defer(function() {
+                            dialog.validateForm();
+                        }, 10);
+                    }
+                }
+            }],
+            buttons: [{
+                text: 'Create',
+                itemId: 'createBtn',
+                disabled: true,
+                formBind: true,
+                handler: function () {
+                    const form = this.up('dialog');
+                    const values = {
+                        name: form.down('#streetName').getValue(),
+                        companyId: form.down('#company').getValue(),
+                        houses: form.down('#houses').getValue(),
+                        cityId: form.down('#city').getValue()
+                    };
+
+                    const store = Ext.getStore('streets');
+                    const newId = store.getCount() > 0 ?
+                        Math.max(...store.getRange().map(r => r.get('id'))) + 1 : 1;
+
+                    const newRecord = Ext.create('StreetsEditor.model.Street', {
+                        id: newId,
+                        name: values.name,
+                        companyId: values.companyId,
+                        houses: values.houses,
+                        cityId: values.cityId
+                    });
+
+                    console.log(newRecord, store);
+
+                    store.add(newRecord);
+                    form.close();
+
+                    Ext.toast('Street added successfully', 3000);
+                }
+            }, {
+                text: 'Close',
+                handler: function () {
+                    this.up('dialog').close();
+                }
+            }]
+        });
+
+        dialog.validateForm = function () {
+            const nameField = this.down('#streetName');
+            const companyField = this.down('#company');
+            const housesField = this.down('#houses');
+            const cityField = this.down('#city');
+
+            const nameValid = nameField.getValue().length >= 5;
+            const companyValid = !!companyField.getValue();
+            const housesValue = housesField.getValue();
+            const housesValid = (typeof housesValue === 'number') && housesValue > 0;
+            console.log(housesValue, housesValid)
+
+            const cityValid = !!cityField.getValue();
+
+            const isValid = nameValid && companyValid && housesValid && cityValid;
+            this.down('#createBtn').setDisabled(!isValid);
+        };
+
+        dialog.show();
+    },
 });

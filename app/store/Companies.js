@@ -4,6 +4,12 @@ Ext.define('StreetsEditor.store.Companies', {
     autoLoad: true,
     alias: 'store.companies',
     fields: ['id', 'name'],
+    proxy: {
+        type: 'memory',
+        reader: {
+            type: 'json'
+        }
+    },
     data: [
         {id: 1, name: 'Билайн'},
         {id: 2, name: 'Мегафон'},
@@ -21,10 +27,4 @@ Ext.define('StreetsEditor.store.Companies', {
         {id: 14, name: 'Wildberries'},
         {id: 15, name: 'Ozon'}
     ],
-    proxy: {
-        type: 'memory',
-        reader: {
-            type: 'json'
-        }
-    }
 });

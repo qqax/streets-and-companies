@@ -71,6 +71,5 @@ Ext.define('StreetsEditor.store.Cities', {
         { id: 58, name: 'Cherepovets', regionId: 2, population: 360000 },
         { id: 59, name: 'Vladikavkaz', regionId: 8, population: 345000 },
         { id: 60, name: 'Murmansk', regionId: 2, population: 330000 }
-    ]
-    ,
+    ],
 });
