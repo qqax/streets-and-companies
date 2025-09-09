@@ -9,7 +9,6 @@ Ext.define('StreetsEditor.model.Street', {
         {name: 'cityId', type: 'int'},
         {name: 'companyName', type: 'string', persist: false, convert: function(v, record) {
                 const companyStore = Ext.getStore('Companies');
-                console.log(companyStore);
                 const company = companyStore && companyStore.findRecord('id', record.get('companyId'));
                 return company ? company.get('name') : '';
             }},

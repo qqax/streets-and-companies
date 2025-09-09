@@ -146,11 +146,11 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
     //     }]
     // }],
     //
-    // plugins: {
-    //     type: 'pagingtoolbar',
-    //     dock: 'bottom',
-    //     displayInfo: true
-    // },
+    plugins: {
+        type: 'pagingtoolbar',
+        dock: 'bottom',
+        displayInfo: true
+    },
     //
     // bbar: {
     //     xtype: 'toolbar',
