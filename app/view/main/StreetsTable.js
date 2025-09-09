@@ -132,15 +132,22 @@ Ext.define('StreetsEditor.view.main.Table', {
 
             let matchCompany = true;
             if (companyValue) {
-                const companyId = record.get('companyId');
+
                 if (typeof companyValue === 'number') {
+                    const companyId = record.get('companyId');
                     matchCompany = companyId === companyValue;
-                } else {
-                    const companyStore = Ext.getStore('Companies');
-                    const company = companyStore.findRecord('name', companyValue, 0, false, true, true);
-                    matchCompany = company ? companyId === company.get('id') : false;
+                } else if (typeof companyValue === 'string') {
+                    const companyName = record.get('companyName');
+                    if (companyName) {
+                        matchCompany = companyName.toLowerCase().includes(companyValue.toLowerCase());
+                    } else {
+                        const companyStore = Ext.getStore('Companies');
+                        const company = companyStore.findRecord('name', companyValue, 0, false, true, true);
+                        matchCompany = company ? record.get('companyId') === company.get('id') : false;
+                    }
                 }
             }
+
 
             let matchPopulation = true;
             if (popFromValue || popToValue) {
@@ -179,8 +186,8 @@ Ext.define('StreetsEditor.view.main.Table', {
                 }
             }
 
-        },  {
-            xtype: 'selectfield',
+        }, {
+            xtype: 'combobox',
             label: 'Company',
             width: 200,
             clearable: true,
@@ -191,21 +198,23 @@ Ext.define('StreetsEditor.view.main.Table', {
             valueField: 'id',
             queryMode: 'local',
             forceSelection: false,
+            anyMatch: true,
+            typeAhead: true,
             triggers: {
                 clear: {
                     type: 'clear',
-                    handler: function(field) {
-                        field.setValue(null);
+                    handler: function (field) {
+                        field.setValue('');
                     }
                 }
             },
             listeners: {
-                change: function(field, value) {
+                change: function (field, value) {
                     const grid = field.up('grid');
                     grid.applyAllFilters();
                 }
             }
-        },{
+        }, {
             xtype: 'numberfield',
             label: 'Number of houses ==',
             width: 200,
