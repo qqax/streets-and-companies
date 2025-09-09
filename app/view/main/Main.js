@@ -1,13 +1,23 @@
 Ext.define('Streets.view.main.Main', {
-    extend: 'Ext.tab.Panel', xtype: 'app-main',
+    extend: 'Ext.Container', xtype: 'app-main',
     requires: ['Ext.MessageBox', 'Ext.layout.Fit'],
 
     controller: 'main', viewModel: 'main',
 
-    items: [{
-        xtype: 'citiesgrid'
-    }, {
-        xtype: 'mainlist'
+    layout: {
+        type: 'hbox',
+        align: 'stretch'
     },
-    ]
+
+    items: [{
+        xtype: 'citiesgrid',
+        width: '25%',
+        margin: 0,
+        style: {
+            'border-right': '2px solid #ddd',
+        }
+    }, {
+        xtype: 'streetstable',
+        flex: 1
+    }]
 });

@@ -1,6 +1,6 @@
 Ext.define('StreetsEditor.view.main.Table', {
     extend: 'Ext.grid.Grid',
-    xtype: 'mainlist',
+    xtype: 'streetstable',
 
     requires: [
         'StreetsEditor.store.Streets',
@@ -11,8 +11,7 @@ Ext.define('StreetsEditor.view.main.Table', {
     ],
 
     title: 'Streets',
-    width: '75%',
-    margin: '5 5 5 5',
+    width: '100%',
 
     store: {
         type: 'streets'
