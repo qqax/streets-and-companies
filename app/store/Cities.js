@@ -1,6 +1,8 @@
 Ext.define('StreetsEditor.store.Cities', {
     extend: 'Ext.data.Store',
     alias: 'store.cities',
+    storeId: 'Cities',
+    autoLoad: true,
     model: 'StreetsEditor.model.City',
     data: [
         {id: 1, name: 'Москва'},
@@ -13,5 +15,11 @@ Ext.define('StreetsEditor.store.Cities', {
         {id: 8, name: 'Самара'},
         {id: 9, name: 'Омск'},
         {id: 10, name: 'Ростов-на-Дону'}
-    ]
+    ],
+    proxy: {
+        type: 'memory',
+        reader: {
+            type: 'json'
+        }
+    }
 });

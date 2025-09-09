@@ -1,6 +1,8 @@
 Ext.define('StreetsEditor.store.Streets', {
     extend: 'Ext.data.Store',
     alias: 'store.streets',
+    storeId: 'Streets',
+    autoLoad: true,
     model: 'StreetsEditor.model.Street',
     data: [
         {id: 1, name: 'Тверская', houses: 150, companyId: 1, cityId: 1},

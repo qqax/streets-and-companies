@@ -1,5 +1,6 @@
 Ext.define('StreetsEditor.model.Street', {
     extend: 'Ext.data.Model',
+    // requires: [ 'StreetsEditor.store.Companies'],
     fields: [
         {name: 'id', type: 'int'},
         {name: 'name', type: 'string'},
@@ -8,6 +9,7 @@ Ext.define('StreetsEditor.model.Street', {
         {name: 'cityId', type: 'int'},
         {name: 'companyName', type: 'string', persist: false, convert: function(v, record) {
                 const companyStore = Ext.getStore('Companies');
+                console.log(companyStore);
                 const company = companyStore && companyStore.findRecord('id', record.get('companyId'));
                 return company ? company.get('name') : '';
             }},
@@ -19,5 +21,5 @@ Ext.define('StreetsEditor.model.Street', {
         {name: 'population', type: 'int', persist: false, convert: function(v, record) {
                 return record.get('houses') * 750;
             }}
-    ]
+    ],
 });

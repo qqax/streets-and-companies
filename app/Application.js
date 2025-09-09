@@ -10,6 +10,12 @@ Ext.define('Streets.Application', {
         }
     },
 
+    stores: [
+        'StreetsEditor.store.Cities',
+        'StreetsEditor.store.Companies',
+        'StreetsEditor.store.Streets'
+    ],
+
     onAppUpdate: function () {
         Ext.Msg.confirm('Application Update', 'This application has an update, reload?',
             function (choice) {
