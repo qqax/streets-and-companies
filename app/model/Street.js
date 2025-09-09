@@ -1,6 +1,6 @@
 Ext.define('StreetsEditor.model.Street', {
     extend: 'Ext.data.Model',
-    // requires: [ 'StreetsEditor.store.Companies'],
+
     fields: [
         {name: 'id', type: 'int'},
         {name: 'name', type: 'string'},

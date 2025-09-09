@@ -68,6 +68,44 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
         store.loadPage(1);
     },
 
+    selectable: {
+        mode: 'multi',
+        checkbox: true,
+    },
+
+    listeners: {
+
+        select: function(grid, record) {
+            const selectedRecords = grid.getSelected();
+            grid.updateStreetsGridFilter(selectedRecords);
+        },
+
+        deselect: function(grid, record) {
+            const selectedRecords = grid.getSelected();
+            grid.updateStreetsGridFilter(selectedRecords);
+        },
+    },
+    getSelectedCities: function() {
+        const selected = this.getSelected(); // Метод Modern Toolkit
+        return selected.map(record => record.get('id'));
+    },
+
+    updateStreetsGridFilter: function(selectedRecords) {
+        const selectedCityIds = selectedRecords.items.map(item => item.get('id'));
+
+        const streetsGrid = Ext.ComponentQuery.query('streetstable')[0];
+        if (streetsGrid && streetsGrid.getStore()) {
+            if (selectedCityIds.length > 0) {
+                streetsGrid.getStore().filter({
+                    property: 'cityId',
+                    value: selectedCityIds,
+                    operator: 'in'
+                });
+            } else {
+                streetsGrid.getStore().clearFilter();
+            }
+        }
+    },
 
     items: [{
         xtype: 'toolbar',
