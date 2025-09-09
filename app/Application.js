@@ -11,6 +11,7 @@ Ext.define('Streets.Application', {
     },
 
     stores: [
+        'StreetsEditor.store.Regions',
         'StreetsEditor.store.Cities',
         'StreetsEditor.store.Companies',
         'StreetsEditor.store.Streets'

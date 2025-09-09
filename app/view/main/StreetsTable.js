@@ -77,10 +77,4 @@ Ext.define('StreetsEditor.view.main.Table', {
         }
     }
     ],
-
-    // plugins: {
-    //     grideditable: {
-    //         triggerEvent: 'tap'
-    //     }
-    // }
 });

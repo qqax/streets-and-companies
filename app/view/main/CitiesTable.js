@@ -97,17 +97,12 @@ Ext.define('StreetsEditor.view.cities.CitiesGrid', {
             clearable: true,
             width: 200,
             store: {
-                fields: ['name'],
-                data: [
-                    {name: 'Central'},
-                    {name: 'North-West'},
-                    {name: 'Southern'},
-                    {name: 'North-Caucasian'},
-                    {name: 'Volga'},
-                    {name: 'Ural'},
-                    {name: 'Siberian'},
-                    {name: 'Far-Eastern'}
-                ]
+                type: 'regions',
+                filters: [{
+                    property: 'name',
+                    operator: '!=',
+                    value: null
+                }],
             },
             displayField: 'name',
             valueField: 'name',
