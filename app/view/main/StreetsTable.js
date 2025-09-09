@@ -21,7 +21,7 @@ Ext.define('StreetsEditor.view.main.Table', {
 
     plugins: [{
         type: 'cellediting',
-        clicksToEdit: 1 // или 2 — как тебе удобно
+        clicksToEdit: 2
     }, {
         type: 'pagingtoolbar',
         dock: 'bottom',
@@ -104,7 +104,7 @@ Ext.define('StreetsEditor.view.main.Table', {
                 delete: {
                     iconCls: 'x-fa fa-trash',
                     handler: function (grid, info) {
-                        var record = info.record;
+                        const record = info.record;
                         Ext.Msg.confirm('Confirmation', 'Delete this street?', function (btn) {
                             if (btn === 'yes') {
                                 grid.getStore().remove(record);
