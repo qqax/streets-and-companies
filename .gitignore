@@ -4,6 +4,7 @@ classic.json*
 modern.json*
 .sencha
 .architect
+.idea
 ext/
 resources/sass/.sass-cache/
 resources/.arch-internal-preview.css
