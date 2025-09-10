@@ -1,30 +1,31 @@
 # Streets App
 
-**Streets** — это веб-приложение на Ext JS v7.9.0.35 (Modern Toolkit) для просмотра и редактирования данных улиц, городов, регионов и компаний.
+**Streets** is a web application built with **Ext JS v7.9.0.35 (Modern Toolkit)** for viewing and editing data related to **streets, cities, regions**, and **companies**.
 
-При работе над проектом использовались [chat.deepseek.com/](https://chat.deepseek.com/) и [chatgpt.com/?model=auto](https://chatgpt.com/?model=auto) при генерации данных, а также как замена поисковикам в случаях, когда официальной документации было недостаточно, или когда требовались комментарии по ошибкам приложения.
+During development, the tools [chat.deepseek.com](https://chat.deepseek.com/) and [chatgpt.com/?model=auto](https://chatgpt.com/?model=auto) were used for data generation, as well as to replace search engines in cases where the official documentation was insufficient or comments on application errors were needed.
 
 ---
 
-## Требования
+## Requirements
 
 - [Node.js](https://nodejs.org/)
 - [Sencha Cmd](https://www.sencha.com/products/sencha-cmd/)
-- Совместимая версия Ext JS (Modern Toolkit)
+- A compatible version of Ext JS (Modern Toolkit)
 
-### Установка Ext JS
+### Installing Ext JS
+
 ```bash
 npm i @sencha/cmd
 ```
-## Запуск проекта в режиме разработки
+## Running the Project in Development Mode
 
 ```bash
 sencha app watch
 ```
-Перейдите в браузере по адресу:
+Then open your browser and go to:
 http://localhost:1841
 
-## Структура проекта
+## Project Structure
 ```js
 ├── app
 │   ├── Application.js
@@ -53,38 +54,38 @@ http://localhost:1841
 └── workspace.json
 ```
 
-## Архитектура проекта
-Данный проект соответствует архитектуре **MVVM (Model-View-ViewModel)**.
+## Project Architecture
+This project follows the **MVVM (Model-View-ViewModel)** architecture.
 
-### Компоненты MVVM:
-**1. Model (Модель)**
-- _app/model/City.js_ - Модель данных городов
-- _app/model/Street.js_ - Модель данных улиц
+### MVVM Components
+**1. Model**
+- _app/model/City.js_ – City data model
+- _app/model/Street.js_ – Street data model
 
-_Отвечают за структуру данных и бизнес-логику_
+_Responsible for data structure and business logic._
 
-**2. View (Представление)**
-- _app/view/main/CitiesTable.js_ - Представление таблицы городов
-- _app/view/main/StreetsTable.js_ - Представление таблицы улиц
-- _app/view/main/Main.js_ - Главное представление
+**2. View**
+- _app/view/main/CitiesTable.js_ – View for the cities table
+- _app/view/main/StreetsTable.js_ – View for the streets table
+- _app/view/main/Main.js_ – Main view
 
-Отвечают за отображение данных и пользовательский интерфейс
+_Responsible for displaying data and the user interface._
 
-**3. ViewModel (Модель представления)**
-- _app/view/main/MainModel.js_ - Модель главного представления
+**3. ViewModel**
+- _app/view/main/MainModel.js_ – Main view model
 
-Связывает Model и View, управляет состоянием представления
+_Binds the Model and View, manages the view state._
 
-**4. Controller (Контроллер)**
-- _app/view/main/MainController.js_ - Контроллер главного вида
+**4. Controller**
+- _app/view/main/MainController.js_ – Main view controller
 
-Обрабатывает пользовательские события и бизнес-логику
+_Handles user events and business logic._
 
-**5. Store (Хранилище)**
-- _app/store/Cities.js_ - Хранилище данных городов
-- _app/store/Streets.js_ - Хранилище данных улиц
-- _app/store/Companies.js_ - Хранилище компаний
-- _app/store/Regions.js_ - Хранилище регионов
+**5. Store**
+- _app/store/Cities.js_ – Data store for cities
+- _app/store/Streets.js_ – Data store for streets
+- _app/store/Companies.js_ – Data store for companies
+- _app/store/Regions.js_ – Data store for regions
 
-Управляют данными, кэшированием и фильтрацией
+_Manages data, caching, and filtering._
 
